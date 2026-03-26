@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="author" content="Gabriel Alessandro Horstmann"></meta>
+  <meta name="description" content="SimplificaBC - União de orgãos publicos de balneario camboriu">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SimplificaBC</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="styles.css">
+  
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav>
+  <span class="nav-logo">SimplificaBC</span>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#inicio" onclick="closeMenu()">Início</a></li>
+    <li class="nav-dropdown" id="navDropdown">
+      <a href="#" id="dropdownTrigger">Serviços ▾</a>
+      <div class="nav-dropdown-menu" id="dropdownMenu">
+        <div class="nav-dropdown-menu-inner">
+          <a href="#" onclick="openModal('empregos')">💼 Empregos</a>
+          <a href="#" onclick="openModal('saude')">🏥 Saúde</a>
+          <a href="#" onclick="openModal('social')">🤝 Assistência Social</a>
+          <a href="#" onclick="openModal('educacao')">🎓 Educação</a>
+          <a href="#" onclick="openModal('seguranca')">🚔 Segurança</a>
+          <a href="#" onclick="openModal('transporte')">🚌 Transporte</a>
+          <a href="#" onclick="openModal('prefeitura')">🏛️ Prefeitura</a>
+          <a href="#" onclick="openModal('turismo')">🌊 Turismo</a>
+        </div>
+      </div>
+    </li>
+    <li><a href="#sobre">Sobre</a></li>
+  </ul>
+  <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="inicio">
+  <h1>SimplificaBC</h1>
+  <p>Central de serviços públicos de Balneário Camboriú — tudo num só lugar.</p>
+  <div class="search-bar">
+    <input type="text" id="searchInput" placeholder="Buscar serviço..." oninput="filterCards()"/>
+    <button onclick="filterCards()">Buscar</button>
+  </div>
+</section>
+
+<!-- CARDS -->
+<main>
+  <p class="section-label">Categorias de serviços</p>
+  <div class="cards-grid" id="cardsGrid">
+
+    <a class="card" href="#" onclick="openModal('empregos'); return false;">
+      <div class="card-icon-box">🤝</div>
+      <span class="card-label">Empregos</span>
+    </a>
+
+    <a class="card" href="#" onclick="openModal('saude'); return false;">
+      <div class="card-icon-box">🏥</div>
+      <span class="card-label">Saúde</span>
+    </a>
+
+    <a class="card" href="#" onclick="openModal('social'); return false;">
+      <div class="card-icon-box">🤲</div>
+      <span class="card-label">Assistência Social</span>
+    </a>
+
+    <a class="card" href="#" onclick="openModal('educacao'); return false;">
+      <div class="card-icon-box">🎓</div>
+      <span class="card-label">Educação</span>
+    </a>
+
+    <a class="card" href="#" onclick="openModal('seguranca'); return false;">
+      <div class="card-icon-box">🚔</div>
+      <span class="card-label">Segurança</span>
+    </a>
+
+    <a class="card" href="#" onclick="openModal('transporte'); return false;">
+      <div class="card-icon-box">🚌</div>
+      <span class="card-label">Transporte</span>
+    </a>
+
+    <a class="card" href="#" onclick="openModal('prefeitura'); return false;">
+      <div class="card-icon-box">🏛️</div>
+      <span class="card-label">Prefeitura</span>
+    </a>
+
+    <a class="card" href="#" onclick="openModal('turismo'); return false;">
+      <div class="card-icon-box">🌊</div>
+      <span class="card-label">Turismo</span>
+    </a>
+
+  </div>
+
+  <!-- SOBRE -->
+  <div id="sobre" style="background:white; border-radius:16px; padding:28px; box-shadow:0 4px 18px rgba(0,0,0,0.07);">
+    <h2 style="font-size:1.2rem;font-weight:900;margin-bottom:10px;">Sobre o SimplificaBC</h2>
+    <p style="color:#555;font-size:0.93rem;line-height:1.7;font-weight:600;">
+      O SimplificaBC é uma central de informações sobre serviços públicos de
+      <strong>Balneário Camboriú – SC</strong>. Nosso objetivo é reunir num só lugar os
+      principais contatos, endereços e links úteis da cidade para facilitar o dia a dia
+      dos moradores e visitantes.
+    </p>
+  </div>
+</main>
+
+<!-- MODALS -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal" id="modalBox">
+    <div class="modal-header">
+      <span class="icon" id="modalIcon"></span>
+      <h2 id="modalTitle"></h2>
+    </div>
+    <div class="modal-body">
+      <ul id="modalList"></ul>
+      <button class="modal-close" onclick="closeModalBtn()">Fechar</button>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  © 2025 SimplificaBC — Balneário Camboriú, SC &nbsp;|&nbsp; Feito com ❤️ para os cidadãos
+</footer>
+
+<script>
+  const DATA = {
+    empregos: {
+      icon: '🤝',
+      title: 'Empregos',
+      items: [
+        { label: 'SINE BC — Agência do Trabalhador', href: 'https://www.bc.sc.gov.br', tel: '(47) 3267-7000' },
+        { label: 'Portal Vagas SC', href: 'https://www.vagas.sc.gov.br' },
+        { label: 'CIEE Santa Catarina', href: 'https://portal.ciee.org.br' },
+        { label: 'Secretaria de Desenvolvimento Econômico', href: 'https://www.bc.sc.gov.br' },
+      ]
+    },
+    saude: {
+      icon: '🏥',
+      title: 'Saúde',
+      items: [
+        { label: 'UPA 24h — R. 4200, 1900', href: 'https://www.bc.sc.gov.br', tel: '(47) 3267-7200' },
+        { label: 'Hospital Marieta Konder Bornhausen', href: '#', tel: '(47) 3361-3000' },
+        { label: 'UBS — Unidades Básicas de Saúde', href: 'https://www.bc.sc.gov.br' },
+        { label: 'SAMU', href: '#', tel: '192' },
+        { label: 'Vigilância Sanitária BC', href: 'https://www.bc.sc.gov.br', tel: '(47) 3267-7080' },
+      ]
+    },
+    social: {
+      icon: '🤲',
+      title: 'Assistência Social',
+      items: [
+        { label: 'CRAS — Centro de Ref. de Assistência Social', href: 'https://www.bc.sc.gov.br', tel: '(47) 3267-7120' },
+        { label: 'CREAS — Centro de Ref. Especializado', href: 'https://www.bc.sc.gov.br', tel: '(47) 3267-7130' },
+        { label: 'Conselho Tutelar', href: '#', tel: '(47) 3267-7140' },
+        { label: 'Bolsa Família — CRAS', href: 'https://www.bc.sc.gov.br' },
+      ]
+    },
+    educacao: {
+      icon: '🎓',
+      title: 'Educação',
+      items: [
+        { label: 'Secretaria de Educação BC', href: 'https://www.bc.sc.gov.br', tel: '(47) 3267-7050' },
+        { label: 'GERED — Gerência Regional de Educação', href: 'https://www.sed.sc.gov.br' },
+        { label: 'UNIASSELVI — Unidade BC', href: 'https://www.uniasselvi.com.br', tel: '(47) 3367-6000' },
+        { label: 'IFC — Campus Camboriú', href: 'https://camboriu.ifc.edu.br', tel: '(47) 2104-0800' },
+      ]
+    },
+    seguranca: {
+      icon: '🚔',
+      title: 'Segurança',
+      items: [
+        { label: 'Polícia Militar — 10ª BPM', href: '#', tel: '190' },
+        { label: 'Polícia Civil — Delegacia BC', href: '#', tel: '(47) 3264-0042' },
+        { label: 'Bombeiros', href: '#', tel: '193' },
+        { label: 'Guarda Municipal BC', href: 'https://www.bc.sc.gov.br', tel: '(47) 3267-7160' },
+        { label: 'Disque-Denúncia', href: '#', tel: '181' },
+      ]
+    },
+    transporte: {
+      icon: '🚌',
+      title: 'Transporte',
+      items: [
+        { label: 'Translitorânea — Ônibus Urbano', href: 'https://www.translitoranea.com.br', tel: '(47) 3266-1515' },
+        { label: 'Terminal Rodoviário BC', href: '#', tel: '(47) 3266-3868' },
+        { label: 'DETRAN SC — Habilitação e Veículos', href: 'https://www.detran.sc.gov.br', tel: '0800 644 4444' },
+        { label: 'Secretaria de Trânsito e Transporte BC', href: 'https://www.bc.sc.gov.br', tel: '(47) 3267-7170' },
+      ]
+    },
+    prefeitura: {
+      icon: '🏛️',
+      title: 'Prefeitura',
+      items: [
+        { label: 'Site Oficial da Prefeitura', href: 'https://www.bc.sc.gov.br' },
+        { label: 'Central de Atendimento ao Cidadão', href: 'https://www.bc.sc.gov.br', tel: '(47) 3267-7000' },
+        { label: 'Nota Fiscal de Serviços Eletrônica', href: 'https://www.bc.sc.gov.br/nfse' },
+        { label: 'Ouvidoria Municipal', href: 'https://www.bc.sc.gov.br', tel: '(47) 3267-7010' },
+        { label: 'IPTU e Tributos', href: 'https://www.bc.sc.gov.br' },
+      ]
+    },
+    turismo: {
+      icon: '🌊',
+      title: 'Turismo',
+      items: [
+        { label: 'Secretaria de Turismo BC', href: 'https://www.bc.sc.gov.br', tel: '(47) 3267-7090' },
+        { label: 'Bondinho Aéreo (Unipraias)', href: 'https://www.unipraias.com.br', tel: '(47) 3369-3000' },
+        { label: 'Câmara de Comércio e Turismo', href: 'https://www.cacbr.com.br' },
+        { label: 'Informações sobre praias e eventos', href: 'https://www.bc.sc.gov.br' },
+      ]
+    },
+  };
+
+  function openModal(key) {
+    const d = DATA[key];
+    if (!d) return;
+    document.getElementById('modalIcon').textContent = d.icon;
+    document.getElementById('modalTitle').textContent = d.title;
+    const list = document.getElementById('modalList');
+    list.innerHTML = d.items.map(item => `
+      <li>
+        <a href="${item.href}" target="_blank" rel="noopener">
+          ${item.tel ? `📞 <strong>${item.tel}</strong> — ` : '🔗 '}${item.label}
+        </a>
+      </li>
+    `).join('');
+    document.getElementById('modalOverlay').classList.add('open');
+  }
+
+  function closeModal(e) {
+    if (e.target === document.getElementById('modalOverlay'))
+      document.getElementById('modalOverlay').classList.remove('open');
+  }
+
+  function closeModalBtn() {
+    document.getElementById('modalOverlay').classList.remove('open');
+  }
+
+  // Search filter
+  function filterCards() {
+    const q = document.getElementById('searchInput').value.toLowerCase();
+    document.querySelectorAll('.card').forEach(card => {
+      const label = card.querySelector('.card-label').textContent.toLowerCase();
+      card.style.display = label.includes(q) ? '' : 'none';
+    });
+  }
+
+  // Mobile menu
+  function toggleMenu() {
+    document.getElementById('navLinks').classList.toggle('open');
+  }
+  function closeMenu() {
+    document.getElementById('navLinks').classList.remove('open');
+  }
+
+  // Dropdown com delay — evita fechar ao passar pelo gap
+  let dropdownTimer;
+  const dropdown = document.getElementById('navDropdown');
+  const dropdownMenu = document.getElementById('dropdownMenu');
+
+  dropdown.addEventListener('mouseenter', () => {
+    clearTimeout(dropdownTimer);
+    dropdownMenu.classList.add('open');
+  });
+
+  dropdown.addEventListener('mouseleave', () => {
+    dropdownTimer = setTimeout(() => {
+      dropdownMenu.classList.remove('open');
+    }, 120);
+  });
+
+  dropdownMenu.addEventListener('mouseenter', () => {
+    clearTimeout(dropdownTimer);
+  });
+
+  dropdownMenu.addEventListener('mouseleave', () => {
+    dropdownTimer = setTimeout(() => {
+      dropdownMenu.classList.remove('open');
+    }, 120);
+  });
+</script>
+</body>
+</html>
